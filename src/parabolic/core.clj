@@ -10,9 +10,11 @@
   (* x x))
 
 
-
 (defn eval-parabola [k x]
   (* k x x))
+
+(defn radius-to-thickness [radius]
+  (eval-parabola (/ 0.5 radius) radius))
 
 (defn parabola-fn [k]
   (fn [x]
@@ -29,9 +31,8 @@
   (reduce accumulate-sum [0] x))
 
 (def default-args
-  {:radius 0.9     ;; The radius of the disk spanned by the edges of the parabola
+  {:radius 0.8     ;; The radius of the disk spanned by the edges of the parabola
    :count 20       ;; How many segments to use for discretization
-   :thickness 0.2 ;; Controls the bowl-shape of the parabola
    :samples 8})    ;; How many measurement points make up each segment
 
 (defn spaced-samples [n maxv]
@@ -47,14 +48,31 @@
      (rest pairs)
      (butlast pairs))))
 
+(defn compute-half-widths [args]
+  (let [angle (/ Math/PI (:count args))
+        f (Math/sin angle)]
+    (spaced-samples (:samples args) (* f (:radius args)))))
+    
+
+
 (defn make-parabolic-segment-sub [args]
   (let [thickness (:thickness args)
         radius (:radius args)
         n (:count args)
         k (/ thickness (sqr radius))
         radial-X (spaced-samples n radius)
-        Y (map (parabola-fn k) radial-X)]
-    {:radial-X radial-X :Y Y}))
+        Y (map (parabola-fn k) radial-X)
+        segment-X (compute-cumulative-sum (line-lengths radial-X Y))]
+    {:radial-X radial-X 
+     :Y Y 
+     :segment-X segment-X
+     :area (* Math/PI (sqr radius))}))
+
+(defn apply-thickness [args]
+  (if (contains? args :thickness)
+    args
+    (assoc args :thickness (radius-to-thickness (:radius args)))))
 
 (defn make-parabolic-segment [args0]
-  (make-parabolic-segment-sub (merge default-args args0)))
+  (make-parabolic-segment-sub 
+   (apply-thickness (merge default-args args0))))
