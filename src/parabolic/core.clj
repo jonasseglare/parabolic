@@ -33,7 +33,7 @@
 (def default-args
   {:radius 0.8     ;; The radius of the disk spanned by the edges of the parabola
    :count 20       ;; How many segments to use for discretization
-   :samples 8})    ;; How many measurement points make up each segment
+   :samples 10})    ;; How many measurement points make up each segment
 
 (defn spaced-samples [n maxv]
   (let [f (/ (double maxv) (- n 1))]
@@ -59,14 +59,28 @@
   (let [thickness (:thickness args)
         radius (:radius args)
         n (:count args)
+        samples (:samples args)
         k (/ thickness (sqr radius))
-        radial-X (spaced-samples n radius)
+        radial-X (spaced-samples samples radius)
         Y (map (parabola-fn k) radial-X)
-        segment-X (compute-cumulative-sum (line-lengths radial-X Y))]
-    {:radial-X radial-X 
-     :Y Y 
-     :segment-X segment-X
-     :area (* Math/PI (sqr radius))}))
+        segment-X (compute-cumulative-sum (line-lengths radial-X Y))
+        half-widths (compute-half-widths args)]
+    (merge
+     args
+     {
+      :radial-X radial-X 
+      :Y Y 
+      :segment-X segment-X
+      :half-widths half-widths
+      :area (* Math/PI (sqr radius))})))
+
+(defn disp-segment [seg]
+  (println (format "Area: %.2f" (:area seg)))
+  (println (format "Radius: %.2f" (:radius seg)))
+  (println (format "Thickness: %.2f" (:thickness seg)))
+  (doseq [[x y] (map vector (:segment-X seg) (:half-widths seg))]
+    (println (format "X: %8.3f   Y: %8.3f" (double x) (double y)))))
+  
 
 (defn apply-thickness [args]
   (if (contains? args :thickness)
