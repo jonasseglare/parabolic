@@ -32,7 +32,7 @@
 
 (def default-args
   {:radius 0.8     ;; The radius of the disk spanned by the edges of the parabola
-   :count 20       ;; How many segments to use for discretization
+   :count 16       ;; How many segments to use for discretization
    :samples 10})    ;; How many measurement points make up each segment
 
 (defn spaced-samples [n maxv]
@@ -75,6 +75,7 @@
       :area (* Math/PI (sqr radius))})))
 
 (defn disp-segment [seg]
+  (println (format "Number of segments: %d" (:count seg)))
   (println (format "Area: %.2f" (:area seg)))
   (println (format "Radius: %.2f" (:radius seg)))
   (println (format "Thickness: %.2f" (:thickness seg)))
