@@ -28,6 +28,9 @@ X:    0.918   Y:    0.156
 ```
 Here, the area is the area of the boundary circle of the parabola, which is proportional to the amount of sunlight coming in. Radius is the radius of that circle. Thickness is the depth of the parabola. Then come the measurements.
 
+The measurements apply as in this image
+![Segment](2016-04-27-225511.jpg)
+
 ## License
 
 Copyright © 2016 Jonas Östlund
