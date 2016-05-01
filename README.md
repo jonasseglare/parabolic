@@ -42,6 +42,9 @@ Here, the area is the area of the boundary circle of the parabola, which is prop
 The measurements apply as in this image
 ![Segment](2016-04-27-225511.jpg)
 
+Here is the parabola under construction
+![Parabola](DSC_0027.jpg)
+
 ## License
 
 Copyright © 2016 Jonas Östlund
