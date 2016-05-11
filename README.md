@@ -45,6 +45,12 @@ The measurements apply as in this image
 Here is the parabola under construction
 ![Parabola](DSC_0027.jpg)
 
+The final parabola being used...
+![Parabola](parabola.jpg)
+
+...to fry falafel.
+![pot](pot.jpg)
+
 ## License
 
 Copyright © 2016 Jonas Östlund
