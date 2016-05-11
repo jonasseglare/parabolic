@@ -44,6 +44,7 @@ The measurements apply as in this image
 
 Here is the parabola under construction
 ![Parabola](DSC_0027.jpg)
+As reflective material, I used **d-c-fix** (http://www.d-c-fix.com/hochglanz-4606.html).
 
 The final parabola being used...
 ![Parabola](parabola.jpg)
